@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCamera } from '../hooks/useCamera';
 import { CameraViewfinder } from '../components/camera/CameraViewfinder';
 import { CaptureButton } from '../components/camera/CaptureButton';
+import { CameraPermissionDenied } from '../components/camera/CameraPermissionDenied';
 import type { ScanResult } from '../types';
 import { runScan } from '../agents/orchestrator';
 
@@ -58,21 +59,8 @@ export function ScanPage() {
 
   if (camera.state === 'denied') {
     return (
-      <div data-testid="scan-page" className="flex flex-col items-center justify-center gap-6 p-6 min-h-[60dvh] text-center">
-        <svg className="w-16 h-16" style={{ color: 'var(--color-text-muted)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-        </svg>
-        <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text)' }}>Camera Access Required</h2>
-        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-          Please allow camera access in your browser settings to scan books.
-        </p>
-        <button
-          onClick={() => navigate('/collection')}
-          className="px-6 py-3 rounded-xl font-medium"
-          style={{ background: 'var(--color-surface-2)', color: 'var(--color-text)', minHeight: 44 }}
-        >
-          Add Books Manually
-        </button>
+      <div data-testid="scan-page">
+        <CameraPermissionDenied />
       </div>
     );
   }

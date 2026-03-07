@@ -199,7 +199,7 @@ export function BookCard({ book, onDispositionChange, onGenreChange, onMarkCompl
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                isCompleted ? onUnmarkComplete?.(book.id) : onMarkComplete?.(book.id);
+                if (isCompleted) { onUnmarkComplete?.(book.id); } else { onMarkComplete?.(book.id); }
               }}
               className="p-1.5 rounded-lg text-xs"
               style={{

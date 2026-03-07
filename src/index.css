@@ -30,3 +30,18 @@ html, body {
   display: flex;
   flex-direction: column;
 }
+
+/* Mobile UX polish */
+button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent horizontal scroll on filter pill row */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* Overscroll containment for book lists */
+.overflow-auto {
+  overscroll-behavior: contain;
+}
