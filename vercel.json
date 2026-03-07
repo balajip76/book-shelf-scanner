@@ -1,6 +1,7 @@
 {
+  "framework": "vite",
   "functions": {
-    "api/**/*.ts": {
+    "api/scan.ts": {
       "maxDuration": 30
     }
   },
