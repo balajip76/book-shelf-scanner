@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 *)",
+      "Bash(python *)",
+      "Bash(node *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(pip install *)",
+      "Bash(where *)",
+      "Bash(echo *)",
+      "Bash(done)",
+      "WebSearch"
+    ]
+  }
+}
+
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  }
+}

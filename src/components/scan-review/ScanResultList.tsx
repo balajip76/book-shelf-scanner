@@ -65,6 +65,11 @@ export function ScanResultList({ books: initialBooks, onConfirm }: Props) {
                   {book.genre} {book.subCategory ? `· ${book.subCategory.replace(/-/g, ' ')}` : ''}
                 </span>
               )}
+              {book.classificationConfidence === 'low' && (
+                <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                  Genre uncertain
+                </span>
+              )}
             </div>
           )}
         </div>
