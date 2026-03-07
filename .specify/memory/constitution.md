@@ -1,50 +1,133 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT
+==================
+Version change: 1.0.0 → 2.0.0
+Bump type: MAJOR (Principle I redefined; Agent Communication Standards materially revised;
+           Quality Gate 2 updated — backward-incompatible governance change)
+
+Modified principles:
+  - I. Agent-First Architecture → I. Agent Autonomy & Full Capability (redefined)
+
+Added sections: none
+
+Removed sections: none (Agent Communication Standards retained but scope narrowed
+  from prescriptive contracts to lightweight collaboration guidelines)
+
+Templates checked:
+  - .specify/templates/plan-template.md       ✅ compatible (Constitution Check section
+      no longer needs to gate on strict contract schemas)
+  - .specify/templates/spec-template.md       ✅ compatible (no change required)
+  - .specify/templates/tasks-template.md      ✅ compatible (no change required)
+  - .specify/templates/agent-file-template.md ✅ compatible (no change required)
+  - .specify/templates/checklist-template.md  ✅ compatible (no change required)
+
+Deferred TODOs: none
+-->
+
+# Agent Team Book Sorter Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Agent Autonomy & Full Capability
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The Claude agent team MUST be granted unrestricted access to its full reasoning,
+tool-use, sub-agent delegation, and context-sharing capabilities. No implementation
+constraint, task decomposition pattern, or architectural rule SHOULD prevent an
+agent from choosing the approach it determines is best suited to the current problem.
+Agents are trusted, autonomous collaborators — not rigid pipeline components with
+fixed roles.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+Where structure is helpful (e.g., a named lead agent, a specific tool list), it
+SHOULD be introduced as lightweight guidance in a feature spec, not as a permanent
+architectural constraint enforced at the constitutional level.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: Pre-imposing architectural boundaries on agent interactions suppresses
+emergent problem-solving strategies that the model can discover on its own. Enabling
+full autonomy produces better, more adaptive outcomes than forcing agents into
+pre-defined roles or communication contracts.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Data Integrity
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Book records and their derived metadata MUST be accurate and consistent at the point
+they leave the agent team. Corrupted, ambiguous, or unresolvable input MUST be
+surfaced to the operator with an explanation rather than silently discarded or
+fabricated.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+**Rationale**: Downstream consumers depend on trustworthy output. Explicit failure
+signals are easier to diagnose and recover from than silent data loss or hallucinated
+values.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### III. Test-First (NON-NEGOTIABLE)
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Tests MUST be written and confirmed to fail before any implementation code is added.
+The Red-Green-Refactor cycle is mandatory. Where agent behavior is being tested,
+acceptance scenarios from the feature spec serve as the test definition.
+
+**Rationale**: Agent-driven pipelines are difficult to debug retroactively. Upfront
+coverage provides a safety net for refactoring and model upgrades.
+
+### IV. Observability
+
+Every significant agent decision (e.g., classification result, routing choice,
+failure handling) MUST be logged in a structured, human-readable format. Log entries
+MUST include: timestamp (ISO-8601), agent or step name, input summary, and outcome.
+Unobservable behavior is not acceptable in production.
+
+**Rationale**: Multi-agent pipelines are opaque by default. Structured output at
+decision points enables root-cause analysis without needing to re-run or reproduce
+failures.
+
+### V. Simplicity
+
+The simplest approach that satisfies the current requirement MUST be preferred.
+New agents, tools, or abstractions MUST NOT be introduced for speculative future
+needs. Unjustified complexity MUST be flagged in the plan's Complexity Tracking table.
+
+**Rationale**: YAGNI discipline keeps the system comprehensible and maintainable
+as the feature set grows.
+
+## Agent Collaboration Guidelines
+
+These are enabling guidelines, not hard constraints. The agent team is free to
+deviate where the task warrants it.
+
+- **Shared context**: Agents SHOULD pass sufficient context so that any agent in
+  the team can understand the current state of a task without needing to re-derive
+  it from scratch.
+- **Tool documentation**: Tools exposed to the agent team MUST have clear, accurate
+  descriptions so agents can self-select the right tool without guesswork.
+- **Failure surfacing**: When an agent cannot complete a sub-task, it MUST communicate
+  the blocker explicitly rather than returning a partial or fabricated result.
+- **Transport flexibility**: Agents may communicate via in-process calls, message
+  queues, or HTTP. The choice SHOULD be documented in the relevant `plan.md`.
+
+## Quality Gates
+
+The following gates MUST pass before any feature branch may be merged:
+
+1. All tests (unit and integration / acceptance) are green.
+2. Agent output is observable: new decision points emit structured log entries.
+3. All new tools exposed to the agent team have accurate, tested descriptions.
+4. Complexity Tracking table in `plan.md` is filled for any constitution exception.
+5. No unresolved `NEEDS CLARIFICATION` markers remain in `spec.md`.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices and informal agreements.
+Amendments require:
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+1. A written proposal describing the change, motivation, and migration plan.
+2. Approval by the project lead before the change is applied.
+3. Version increment per semantic versioning policy (see below).
+4. Update of all dependent templates and guidance files within the same commit.
+
+**Versioning policy**:
+- MAJOR: backward-incompatible governance changes, principle removals or redefinitions.
+- MINOR: new principle or section added, or material guidance expansion.
+- PATCH: clarifications, wording fixes, non-semantic refinements.
+
+All PRs and code reviews MUST verify compliance with this constitution. Any violation
+that cannot be resolved within the PR MUST be documented in the Complexity Tracking
+table with a justification and a remediation timeline.
+
+**Version**: 2.0.0 | **Ratified**: 2026-03-07 | **Last Amended**: 2026-03-07
