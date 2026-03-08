@@ -64,10 +64,6 @@ export function useCamera(): UseCameraResult {
     getRearCameraStream()
       .then(stream => {
         streamRef.current = stream;
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.play().catch(() => {});
-        }
         setState('streaming');
       })
       .catch(err => {
@@ -83,6 +79,14 @@ export function useCamera(): UseCameraResult {
 
     return () => { stopCamera(); };
   }, [stopCamera]);
+
+  // Assign srcObject after the video element is in the DOM (state === 'streaming' renders the <video>)
+  useEffect(() => {
+    if (state === 'streaming' && streamRef.current && videoRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [state]);
 
   const captureFrame = useCallback(async (): Promise<Blob | null> => {
     const video = videoRef.current;
